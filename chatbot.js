@@ -1,4 +1,7 @@
-// now step 1-6 works, step 7 is still buggy and still needs to do the line by line work for the last part 
+// FINALLY EVERYTHING WORKS! ✨
+// now need to do final tweaks since there are still some typos, etc.
+// also need to work on aesthetics
+// also need to go through & clean up the code
 
 // Step 1: Get necessary DOM elements
 const chatWindow = document.getElementById("chat-window");
@@ -83,7 +86,7 @@ function askConversationQuestion() {
     const messages = [
     `Great ${userName}, let's get started!`, 
     `We are going to start by practicing meeting someone new.`,
-    `Take a look at the three scenarios above,`,
+    `Take a look at the three scenarios below,`,
     `when you are in a new place and you don't know anyone,`,
     `${userName}, what makes you feel hesitant to talk to people?`,
     `Click on one of the buttons to keep going.`,
@@ -125,6 +128,9 @@ function askConversationQuestion() {
               button1MessageIndex++; // Move to the next message
               setTimeout(displayButton1NextMessage, 1000); // Wait before displaying next message
             }
+            else {
+              askAdditionalChoices(); // Once all messages are displayed, call this function
+            }
           }
         
           displayButton1NextMessage(); // Start displaying messages
@@ -158,6 +164,9 @@ function askConversationQuestion() {
             addMessage(button2Messages[button2MessageIndex]);
             button2MessageIndex++; // Move to the next message
             setTimeout(displayButton2NextMessage, 1000); // Wait before displaying next message
+            }
+            else {
+              askAdditionalChoices(); // Once all messages are displayed, call this function
             }
           }
 
@@ -215,122 +224,207 @@ function askConversationQuestion() {
   }
 
 
-
 // Step 7: Additional convo topics to practice for the user
 function askAdditionalChoices() {
-  addMessage(
-  `Now ${userName}, let's explore some common topics for breaking the ice with strangers.`, 
-  `These topics are fantastic icebreakers because they are relatable and provide common ground for conversation.`,
-  `They allow people to share their opinions, preferences, and experiences, fostering a sense of connection and sparking engaging discussions.`,
-  `Whether it's discussing the latest episode of a popular show or sharing thoughts on a trending song,`,
-  `these topics can help initiate conversations and create a friendly atmosphere for people to connect and get to know each other better.`,
-  `Go ahead and pick one that works for you. ❤️`);
+  const convoTopicIntro = [
+    `Now ${userName}, let's explore some common topics for breaking the ice with strangers.`, 
+    `These topics are fantastic icebreakers because they are relatable and provide common ground for conversation.`,
+    `They allow people to share their opinions, preferences, and experiences, fostering a sense of connection and sparking engaging discussions.`,
+    `Whether it's discussing the latest episode of a popular show or sharing thoughts on a trending song,`,
+    `these topics can help initiate conversations and create a friendly atmosphere for people to connect and get to know each other better.`,
+    `Go ahead and pick one that works for you. ❤️`];
 
-  const buttonWeather = createResponseButton("⛈️ weather");
-  const buttonNews = createResponseButton("📰 current news");
-  const buttonEntertainment = createResponseButton("👯‍♀️ entertainment");
-  const buttonThings = createResponseButton("👋 how are things");
-  const buttonExpertise = createResponseButton("🧪 expertise");
+  let convoTopicIntroIndex = 0;
 
+  function displayConvoTopicIntro() {
+    if (convoTopicIntroIndex < convoTopicIntro.length) {
+      addMessage(convoTopicIntro[convoTopicIntroIndex]);
+      convoTopicIntroIndex++;
+      setTimeout(displayConvoTopicIntro, 1000);
+    } else {
+      const buttonWeather = createResponseButton("⛈️ weather");
+      const buttonNews = createResponseButton("📰 current news");
+      const buttonEntertainment = createResponseButton("👯‍♀️ entertainment");
+      const buttonThings = createResponseButton("👋 how are things");
+      const buttonExpertise = createResponseButton("🧪 expertise");
 
-  buttonWeather.addEventListener("click", function() {
-    addMessage(`This is a very common topic! People often bond over this, especially if the area you are living has bad weather all the time.
-    Here are some examples you can use: "I heard it's going to rain tomorrow. Do you have any plans?"
-    "I love this weather. It's perfect for a walk in the park. How about you? What do you like to do?"
-    "The weather forecast says it's going to be hot this weekend. Any weekends plan ahead?"
-    "I can't wait for spring to arrive. I miss seeing flowers in bloom. What are some of your favorite flowers?"
-    
-    Notice that we end each sentence with a question that keeps the conversation going. 😉
-    
-    This is a great way to learn more about the person you are talking to and keeping the conversation going by asking open-ended questions.
-    
-    It's been a wonderful chatting with you today!
-    If you ever need someone to talk to or practice conversations with, I'll be here.
-    Take care and have a wonderful day! 🌟👋`);
-  });
+      buttonWeather.addEventListener("click", function () {
+        const buttonWeatherMessages = [
+        `This is a very common topic! People often bond over this, especially if the area you are living has bad weather all the time.`,
+        `Here are some examples you can use: "I heard it's going to rain tomorrow. Do you have any plans?"`,
+        `"I love this weather. It's perfect for a walk in the park. How about you? What do you like to do?"`,
+        `"The weather forecast says it's going to be hot this weekend. Any weekends plan ahead?"`,
+        `"I can't wait for spring to arrive. I miss seeing flowers in bloom. What are some of your favorite flowers?"`,
+        ``,
+        `Notice that we end each sentence with a question that keeps the conversation going. 😉`,
+        ``,
+        `This is a great way to learn more about the person you are talking to and`,
+        `keeping the conversation going by asking open-ended questions.`,
+        ``,
+        `It's been a wonderful chatting with you today!`,
+        `If you ever need someone to talk to or practice conversations with, I'll be here.`,
+        `Take care and have a wonderful day! 🌟👋`
+        ];
 
-  buttonNews.addEventListener("click", function() {
-    addMessage(`Current news is also another way to get people talking. For example: 
-    "It seems like there's a new story every day about the impact of [TOPIC] on society. What do you think about it?" 
-    "I read an interesting article today about [TOPIC]. It's fascinating how fast things are changing. What do you think?"
-    "Did you hear about [AN EVENT]? What do you think about it?"
-    
-    Notice that we end each sentence with a question that keeps the conversation going. 😉
-    
-    This is a great way to learn more about the person you are talking to and keeping the conversation going by asking open-ended questions.
-    
-    Keep in mind the current news can be controversial, usually around the topic of politics and religion, you can stay on the general side of things to avoid possible conflicts.
+        let buttonWeatherMessageIndex = 0;
 
-    It's been a wonderful chatting with you today!
-    If you ever need someone to talk to or practice conversations with, I'll be here.
-    Take care and have a wonderful day! 🌟👋`);
-  });
+        function displayButtonWeatherNextMessage() {
+          if (buttonWeatherMessageIndex < buttonWeatherMessages.length) {
+            addMessage(buttonWeatherMessages[buttonWeatherMessageIndex]);
+            buttonWeatherMessageIndex++;
+            setTimeout(displayButtonWeatherNextMessage, 1000);
+          }
+        }
 
-  buttonEntertainment.addEventListener("click", function() {
-    addMessage(`Let's dive into the world of entertainment!
-    Whether it's the latest chart-topping songs, the most talked-about TV shows, or the must-see movies,
-    there's always something exciting to explore and discuss and able to get everyone excited and engaged quickly.
-    Here are some things you can say to get it started:
-    "Have you seen the latest episode of [popular TV show]? The plot twists are mind-blowing!"
-    "I recently watched [recently released movie]. It was so captivating! Have you seen it?"
-    "There's a new series everyone is talking about called [popular show]. I've heard great things about it! Have you seen it?"
-    "What's your favorite [movie/TV shows/books]? I'm always on the lookout for recommendations."
-    
-    Notice that there is always an open-ended question in the sentence that keeps the conversation going. 😉
-    
-    This is a great way to learn more about the person you are talking to and keeping the conversation going by asking open-ended questions.
-    
-    It's been a wonderful chatting with you today!
-    If you ever need someone to talk to or practice conversations with, I'll be here.
-    Take care and have a wonderful day! 🌟👋`);
-  });
+        displayButtonWeatherNextMessage();
+      });
 
-  buttonThings.addEventListener("click", function() {
-    addMessage(`Commiserating together is often a great way to bond.
-    This is also why complaining about the weather is great.
-    It is a common experience and there is no risk in offending anyone. 
-    Whether it's about work, personal life, or simply how you're feeling today,
-    discussing 'how are things?' can open the door to meaningful conversations and provide an opportunity to share and connect.
-    Here are a few examples for you to try:
-    "UGH, it's been such a long week. How about you?"
-    "I've been taking up knitting to help me decompress. HOw about you? What do you do to decompress?"
-    "Work has been hectic, but I'm managing. I'm looking forward to some downtime this weekend. What are you up to this weekend?"
-    "I've always wanted to try/learn [A HOBBY, SKILL, ETC.], have you done it before?"
+      buttonNews.addEventListener("click", function () {
+        const buttonNewsMessages = [
+         `Current news is also another way to get people talking. For example:`,
+         `"It seems like there's a new story every day about the impact of [TOPIC] on society. What do you think about it?"`,
+         `"I read an interesting article today about [TOPIC]. It's fascinating how fast things are changing. What do you think?"`,
+         `"Did you hear about [AN EVENT]? What do you think about it?"`,
+         ``,  
+         `Notice that we end each sentence with a question that keeps the conversation going. 😉`,
+         ``,  
+         `This is a great way to learn more about the person you are talking to and keeping the conversation going by asking open-ended questions.`,
+         ``,  
+         `Keep in mind the current news can be controversial,`,
+         `usually around the topic of politics and religion,you can stay on the general side of things to avoid possible conflicts.`,
+         ``,
+         `It's been a wonderful chatting with you today!`,
+         `If you ever need someone to talk to or practice conversations with, I'll be here.`,
+         `Take care and have a wonderful day! 🌟👋`
+        ];
 
-    Notice that we end each sentence with a question that keeps the conversation going. 😉
-    
-    This is a great way to learn more about the person you are talking to and keeping the conversation going by asking open-ended questions.
-    
-    Keep in mind the current news can be controversial, usually around the topic of politics and religion, you can stay on the general side of things to avoid possible conflicts.
-    
-    It's been a wonderful chatting with you today!
-    If you ever need someone to talk to or practice conversations with, I'll be here.
-    Take care and have a wonderful day! 🌟👋`);
+        let buttonNewsMessageIndex = 0;
 
-  });
+        function displayButtonNewsNextMessage() {
+          if (buttonNewsMessageIndex < buttonNewsMessages.length) {
+            addMessage(buttonNewsMessages[buttonNewsMessageIndex]);
+            buttonNewsMessageIndex++;
+            setTimeout(displayButtonNewsNextMessage, 1000);
+          }
+        }
 
-  buttonExpertise.addEventListener("click", function() {
-    addMessage(`Asking people about their expertise is a great way to engage with them.
-    Whether it is a topic about their work, hobbies, favorite shows/books/movies,
-    they are sharing something they are passionate about with you.
+        displayButtonNewsNextMessage();
+      });
+
+      buttonEntertainment.addEventListener("click", function () {
+        const buttonEntertainmentMessages = [
+          `Let's dive into the world of entertainment!`,
+          `Whether it's the latest chart-topping songs, the most talked-about TV shows, or the must-see movies,`,
+          `there's always something exciting to explore and discuss and able to get everyone excited and engaged quickly.`,
+          `Here are some things you can say to get it started:`,
+          `"Have you seen the latest episode of [popular TV show]? The plot twists are mind-blowing!"`,
+          `"I recently watched [recently released movie]. It was so captivating! Have you seen it?"`,
+          `"There's a new series everyone is talking about called [popular show]. I've heard great things about it! Have you seen it?"`,
+          `"What's your favorite [movie/TV shows/books]? I'm always on the lookout for recommendations."`,
+          ``,  
+          `Notice that there is always an open-ended question in the sentence that keeps the conversation going. 😉`,
+          ``,
+          `This is a great way to learn more about the person you are talking to and`,
+          `keeping the conversation going by asking open-ended questions.`,
+          ``,  
+          `It's been a wonderful chatting with you today!`,
+          `If you ever need someone to talk to or practice conversations with, I'll be here.`,
+          `Take care and have a wonderful day! 🌟👋`
+        ];
+
+        let buttonEntertainmentMessageIndex = 0;
+
+        function displayButtonEntertainmentNextMessage() {
+          if (buttonEntertainmentMessageIndex < buttonEntertainmentMessages.length) {
+            addMessage(buttonEntertainmentMessages[buttonEntertainmentMessageIndex]);
+            buttonEntertainmentMessageIndex++;
+            setTimeout(displayButtonEntertainmentNextMessage, 1000);
+          }
+        }
+
+        displayButtonEntertainmentNextMessage();
+      });
+
+      buttonThings.addEventListener("click", function () {
+        const buttonThingsMessages = [
+          `Commiserating together is often a great way to bond.`,
+          `This is also why complaining about the weather is great.`,
+          `It is a common experience and there is no risk in offending anyone.`,
+          `Whether it's about work, personal life, or simply how you're feeling today,`,
+          `discussing 'how are things?' can open the door to meaningful conversations and provide an opportunity to share and connect.`,
+          `Here are a few examples for you to try:`,
+          `"UGH, it's been such a long week. How about you?"`,
+          `"I've been taking up knitting to help me decompress. HOw about you? What do you do to decompress?"`,
+          `"Work has been hectic, but I'm managing. I'm looking forward to some downtime this weekend. What are you up to this weekend?"`,
+          `"I've always wanted to try/learn [A HOBBY, SKILL, ETC.], have you done it before?"`,
+          ``,
+          `Notice that we end each sentence with a question that keeps the conversation going. 😉`,
+          ``,  
+          `This is a great way to learn more about the person you are talking to and`,
+          `keeping the conversation going by asking open-ended questions.`,
+          ``,  
+          `Keep in mind the current news can be controversial, usually around the topic of politics and religion,`,
+          `you can stay on the general side of things to avoid possible conflicts.`,
+          ``,  
+          `It's been a wonderful chatting with you today!`,
+          `If you ever need someone to talk to or practice conversations with, I'll be here.`,
+          `Take care and have a wonderful day! 🌟👋`
+        ];
+
+        let buttonThingsMessageIndex = 0;
+
+        function displayButtonThingsNextMessage() {
+          if (buttonThingsMessageIndex < buttonThingsMessages.length) {
+            addMessage(buttonThingsMessages[buttonThingsMessageIndex]);
+            buttonThingsMessageIndex++;
+            setTimeout(displayButtonThingsNextMessage, 1000);
+          }
+        }
+
+        displayButtonThingsNextMessage();
+      });
+
+      buttonExpertise.addEventListener("click", function () {
+        const buttonExpertiseMessages = [
+          `Asking people about their expertise is a great way to engage with them.`,
+          `Whether it is a topic about their work, hobbies, favorite shows/books/movies,`,
+          `they are sharing something they are passionate about with you.`,
+          ``,
+          `Here are some of the things you can ask:`,
+          `"Can you tell me a little bit more about [TOPIC]? I've heard you are an expert on this."`,
+          `"How do you find inspirations/ stay up to date about [TOPIC]?"`,
+          `"Do you recommend any resources about [TOPIC]?"`,
+          `"If I want to learn more about [TOPIC], how should I get started? What is your recommendations?"`,
+          ``,
+          `It's been a wonderful chatting with you today!`,
+          `If you ever need someone to talk to or practice conversations with, I'll be here.`,
+          `Take care and have a wonderful day! 🌟👋`
+        ];
+
+        let buttonExpertiseMessageIndex = 0;
+
+        function displayButtonExpertiseNextMessage() {
+          if (buttonExpertiseMessageIndex < buttonExpertiseMessages.length) {
+            addMessage(buttonExpertiseMessages[buttonExpertiseMessageIndex]);
+            buttonExpertiseMessageIndex++;
+            setTimeout(displayButtonExpertiseNextMessage, 1000);
+          }
+        }
+
+        displayButtonExpertiseNextMessage();
+      });
     
-    Here are some of the things you can ask:
-    "Can you tell me a little bit more about [TOPIC]? I've heard you are an expert on this."
-    "How do you find inspirations/ stay up to date about [TOPIC]?"
-    "Do you recommend any resources about [TOPIC]?"
-    "If I want to learn more about [TOPIC], how should I get started? What is your recommendations?"
-    
-    It's been a wonderful chatting with you today!
-    If you ever need someone to talk to or practice conversations with, I'll be here.
-    Take care and have a wonderful day! 🌟👋`);
-  });
 
-  chatWindow.appendChild(buttonWeather);
-  chatWindow.appendChild(buttonNews);
-  chatWindow.appendChild(buttonEntertainment);
-  chatWindow.appendChild(buttonThings);
-  chatWindow.appendChild(buttonExpertise);
+      chatWindow.appendChild(buttonWeather);
+      chatWindow.appendChild(buttonNews);
+      chatWindow.appendChild(buttonEntertainment);
+      chatWindow.appendChild(buttonThings);
+      chatWindow.appendChild(buttonExpertise);
+    }
+  }
 
+  displayConvoTopicIntro();
+  
 }
 
 
