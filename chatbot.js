@@ -1,10 +1,8 @@
-// current progress: conversations finished;
-// line by line convo works in the buttons, but not for the topic conversations yet
+// now step 1-6 works, step 7 is still buggy and still needs to do the line by line work for the last part 
 
 // Step 1: Get necessary DOM elements
 const chatWindow = document.getElementById("chat-window");
 const userInput = document.getElementById("user-input");
-let userName;
 
 // Step 2: Start with an introduction and ask for user's name
 addMessage(`Hi there, I am MAKA the chatbot. I am a Mindful Assistant for Kinder Assertiveness. What is your name?`);
@@ -83,136 +81,131 @@ function askConversationQuestion() {
 
   yesButton.addEventListener("click", function() {
     const messages = [
-      `Great ${userName}, let's get started! We are going to start by practicing meeting someone new.
-      When you are in a new place and you don't know anyone, ${userName}, what makes you feel hesitant to talk to people?`,
+    `Great ${userName}, let's get started!`, 
+    `We are going to start by practicing meeting someone new.`,
+    `Take a look at the three scenarios above,`,
+    `when you are in a new place and you don't know anyone,`,
+    `${userName}, what makes you feel hesitant to talk to people?`,
+    `Click on one of the buttons to keep going.`,
     ];
-  
-    let messageIndex = 0;
-  
-    function displayNextMessage() {
-      if (messageIndex < messages.length) {
-        addMessage(messages[messageIndex]);
-        messageIndex++;
-        setTimeout(displayNextMessage, 1000);
+    
+    let messageIndex = 0; // Start with the first message
+    
+      function displayNextMessage() {
+        if (messageIndex < messages.length) {
+          addMessage(messages[messageIndex]);
+          messageIndex++; // Move to the next message
+          setTimeout(displayNextMessage, 1000); // Wait before displaying next message
+        } else {
+        const button1 = createResponseButton("I don't know what to say");
+        const button2 = createResponseButton("I don't speak the language well");
+        const button3 = createResponseButton("I feel shy to talk to new people");
+      
+        button1.addEventListener("click", function() {
+          const button1Messages = [
+          `${userName}, that's completely understandable and very common.`,
+          `It can be challenging to come up with things to say in new situations.`,
+          `Practice and experience can help improve your conversation skills!`,
+          `Can we try a few things here:`,
+          `👖 Have some conversation topics in your back pocket. For example, the weather, latest shows, etc.`,
+          `💬 Have relevant conversation topics that relate to the event.'
+          'For example, if you are at a JavaScript conference,`,
+          `you can talk about what others think about the new announcements.`,
+          `🙋🏻‍♀️ Ask people questions and listen.`,
+          `😊 If all else fails, a smile and nod always work pretty well.😊`,
+          `To do this, start by thinking a topic that you are comfortable with.`,
+          `Then, come up with three things you can chat to people about.`,
+          ];
+
+          let button1MessageIndex = 0; // Start with the first message
+
+          function displayButton1NextMessage() {
+            if (button1MessageIndex < button1Messages.length) {
+              addMessage(button1Messages[button1MessageIndex]);
+              button1MessageIndex++; // Move to the next message
+              setTimeout(displayButton1NextMessage, 1000); // Wait before displaying next message
+            }
+          }
+        
+          displayButton1NextMessage(); // Start displaying messages
+        });      
+      
+        button2.addEventListener("click", function() {
+          const button2Messages = [
+          `Hey ${userName}, believe it or not, many people share the same fear around this!`,
+          `Language barriers can make it difficult to communicate effectively,`,
+          `because we are afraid to say the wrong things.`,
+          `But that's totally okay! Even native speakers can make very common mistakes.`,
+          `🗣️ The key is to practice!`,
+          `With practice, you can overcome this challenge and become more confident with speaking a foreign language.`,
+          ``,
+          `Here are a few tips from the personal experiences of Cindy Lin, the creator of this chatbot:`,
+          `📺 I learned English by watching the TV show Friends with subtitles on.`,
+          `This way, I learned conversational English while learning new vocabulary, tone and how people communicate, make jokes, etc.`,
+          `📚 I started by reading children's books, one book a day.`,
+          `💻 I used meetup.com to find language meetups where I can meet new friends and practice language.`,
+          `👩🏻‍🏫 Find a language tutor and start practicing speaking, especially for the day-to-day conversations.`,
+          `The more you use the language every day, the easier it will be.`,
+          ``,
+          `Regardless your reason for feeling uncomfortable to speak in a new setting,`,
+          `we can start by preparing ourselves with conversation topics that can help to break the ice.🧊`
+          ];
+          
+          let button2MessageIndex = 0; // Start with the first message
+
+          function displayButton2NextMessage() {
+            if (button2MessageIndex < button2Messages.length) {
+            addMessage(button2Messages[button2MessageIndex]);
+            button2MessageIndex++; // Move to the next message
+            setTimeout(displayButton2NextMessage, 1000); // Wait before displaying next message
+            }
+          }
+
+          displayButton2NextMessage(); // Start displaying messages
+        });
+
+      
+        button3.addEventListener("click", function() {
+          const button3Messages = [
+          `${userName}, I get you. Feeling shy is natural, especially when interacting with new people.`,
+          `🎗️ Remember, everyone feels a little nervous at times. Take small steps and gradually build your confidence.`,
+          `Here are a few strategies for you:`,
+          `👂🏻 Start small, actively listen for clues on what they are interested in.`,
+          `💁🏻‍♀️ Ask open-ended questions to get more information.`,
+          `🫱🏼 Use your common grounds and start conversations from there.`,
+          `Regardless your reason for feeling uncomfortable to speak in a new setting,`,
+          `we can start by preparing ourselves with conversation topics that can help to break the ice.`
+          ];
+
+          let button3MessageIndex = 0; // Start with the first message
+
+          function displayButton3NextMessage() {
+            if (button3MessageIndex < button3Messages.length) {
+            addMessage(button3Messages[button3MessageIndex]);
+            button3MessageIndex++; // Move to the next message
+            setTimeout(displayButton3NextMessage, 1000); // Wait before displaying next message
+            }
+            else {
+              askAdditionalChoices(); // Once all messages are displayed, call this function
+            }
+          }
+
+          displayButton3NextMessage(); // Start displaying messages
+        });
+        
+        
+        chatWindow.appendChild(button1);
+        chatWindow.appendChild(button2);
+        chatWindow.appendChild(button3);
       }
     }
-  
-    displayNextMessage();
-
-    const button1 = createResponseButton("I don't know what to say");
-    const button2 = createResponseButton("I don't speak the language well");
-    const button3 = createResponseButton("I feel shy to talk to new people");
-
-    button1.addEventListener("click", function() {
-      const messages = [
-        `${userName}, that's completely understandable and very common.`,
-        `It can be challenging to come up with things to say in new situations.`,
-        `Practice and experience can help improve your conversation skills!`,
-        `Can we try a few things here:`,
-        `1. Have some conversation topics in your back pocket. For example, the weather, latest shows, etc.`,
-        `2. Have relevant conversation topics that relate to the event.`
-        `For example, if you are at a JavaScript conference,`,
-        `you can talk about what others think about the new announcements.`,
-        `3. Ask people questions and listen.`,
-        `4. If all else fails, a smile and nod work pretty well. 😊`,
-        `To do this, start by thinking a topic that you are comfortable with.`,
-        `Then, come up with three things you can chat to people about.`,
-      ];
     
-      let messageIndex = 0; // Start with the first message
-    
-      function displayNextMessage() {
-        if (messageIndex < messages.length) {
-          addMessage(messages[messageIndex]);
-          messageIndex++; // Move to the next message
-          setTimeout(displayNextMessage, 1000); // Wait before display message
-        } else {
-          askAdditionalChoices(); // Once all messages are displayed, call this function
-        }
-      }
-    
-      displayNextMessage(); // Start displaying messages
-    
-    });
-
-  
-    button2.addEventListener("click", function() {
-      const messages = [
-        `Hey ${userName}, believe it or not, many people share the same fear around this!`,
-        `Language barriers can make it difficult to communicate effectively,`,
-        `because we are afraid to say the wrong things.`,
-        `But that's totally okay! Even native speakers can make very common mistakes.`,
-        `The key is to practice!`,
-        `With practice, you can overcome this challenge and become more confident with speaking a foreign language.`,
-        ``,
-        `Here are a few tips from the personal experiences of Cindy Lin, the creator of this chatbot:`,
-        `1) I learned English by watching the TV show Friends with subtitles on.`,
-        `This way, I learned conversational English while learning new vocabulary, tone and how people communicate, make jokes, etc.`,
-        `2) I started by reading children's books, one book a day.`,
-        `3) I used meetup.com to find language meetups where I can meet new friends and practice language.`,
-        `4) Find a language tutor and start practicing speaking, especially for the day-to-day conversations.`,
-        `The more you use the language every day, the easier it will be.`,
-        ``,
-        `Regardless your reason for feeling uncomfortable to speak in a new setting,`,
-        `we can start by preparing ourselves with conversation topics that can help to break the ice.`
-      ];
-    
-      let messageIndex = 0; // Start with the first message
-    
-      function displayNextMessage() {
-        if (messageIndex < messages.length) {
-          addMessage(messages[messageIndex]);
-          messageIndex++; // Move to the next message
-          setTimeout(displayNextMessage, 1000); // Wait before displaying next message
-        } else {
-          askAdditionalChoices(); // Once all messages are displayed, call this function
-        }
-      }
-    
-      displayNextMessage(); // Start displaying messages
-    });
-    
-      
-    button3.addEventListener("click", function() {
-      const messages = [
-        `${userName}, I get you. Feeling shy is natural, especially when interacting with new people.`,
-        `Remember, everyone feels a little nervous at times. Take small steps and gradually build your confidence.`,
-        `Here are a few strategies for you:`,
-        `Start small, actively listen for clues on what they are interested in.`,
-        `Ask open-ended questions to get more information.`,
-        `Use your common grounds and start conversations from there.`,
-        `Regardless your reason for feeling uncomfortable to speak in a new setting,`,
-        `we can start by preparing ourselves with conversation topics that can help to break the ice.`
-      ];
-    
-      let messageIndex = 0; // Start with the first message
-    
-      function displayNextMessage() {
-        if (messageIndex < messages.length) {
-          addMessage(messages[messageIndex]);
-          messageIndex++; // Move to the next message
-          setTimeout(displayNextMessage, 1000); // Wait before displaying next message
-        } else {
-          askAdditionalChoices(); // Once all messages are displayed, call this function
-        }
-      }
-    
-      displayNextMessage(); // Start displaying messages
-    });
-    
-
-
-      chatWindow.appendChild(button1);
-      chatWindow.appendChild(button2);
-      chatWindow.appendChild(button3);
-  
-      
-    });
-  
+    displayNextMessage(); // Start displaying messages
+  });
 
     
     noButton.addEventListener("click", function() {
-      addMessage("Awww! Bummer. I was hoping to practice some conversations today. Have a great day! 😊👋");
+      addMessage(`Awww ${userName}! Bummer. I was hoping to practice some conversations today. Have a great day! 😊👋`);
     });
   
     // Yes/ no button for practicing conversations
@@ -225,19 +218,19 @@ function askConversationQuestion() {
 
 // Step 7: Additional convo topics to practice for the user
 function askAdditionalChoices() {
-  addMessage(`Great job so far, ${userName}!`,
-  `Now, let's explore some common topics for breaking the ice with strangers.`, 
+  addMessage(
+  `Now ${userName}, let's explore some common topics for breaking the ice with strangers.`, 
   `These topics are fantastic icebreakers because they are relatable and provide common ground for conversation.`,
   `They allow people to share their opinions, preferences, and experiences, fostering a sense of connection and sparking engaging discussions.`,
   `Whether it's discussing the latest episode of a popular show or sharing thoughts on a trending song,`,
   `these topics can help initiate conversations and create a friendly atmosphere for people to connect and get to know each other better.`,
   `Go ahead and pick one that works for you. ❤️`);
 
-  const buttonWeather = createResponseButton("weather");
-  const buttonNews = createResponseButton("current news");
-  const buttonEntertainment = createResponseButton("entertainment");
-  const buttonThings = createResponseButton("how are things");
-  const buttonExpertise = createResponseButton("expertise");
+  const buttonWeather = createResponseButton("⛈️ weather");
+  const buttonNews = createResponseButton("📰 current news");
+  const buttonEntertainment = createResponseButton("👯‍♀️ entertainment");
+  const buttonThings = createResponseButton("👋 how are things");
+  const buttonExpertise = createResponseButton("🧪 expertise");
 
 
   buttonWeather.addEventListener("click", function() {
